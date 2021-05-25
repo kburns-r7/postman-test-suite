@@ -1,0 +1,285 @@
+{
+	"info": {
+		"_postman_id": "a4e43334-e127-4b97-9910-3d5b570faba5",
+		"name": "Postman Test Suite",
+		"description": "This is a fully automated test suite for Regression testing on new releases.\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Run first",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"user_name\", jsonData.user_name);",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "\"{{divvy_password}}\"",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "\"{{divvy_username}}\"",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": true
+							},
+							{
+								"key": "X-Auth-Token",
+								"value": "session_id",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"{{divvy_username}}\",\n\t\"password\": \"{{divvy_password}}\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/v2/public/user/login",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"v2",
+								"public",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Example Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": "The mime type of this content"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"user_email\": \"{{divvy_username}}\",\n  \"user_password\": \"{{divvy_password}}\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/v2/public/user/login",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"v2",
+										"public",
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept",
+									"name": "Access-Control-Allow-Headers",
+									"description": ""
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "POST, GET, OPTIONS",
+									"name": "Access-Control-Allow-Methods",
+									"description": ""
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*",
+									"name": "Access-Control-Allow-Origin",
+									"description": ""
+								},
+								{
+									"key": "Content-Length",
+									"value": "286",
+									"name": "Content-Length",
+									"description": ""
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": ""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Nov 2016 15:12:28 GMT",
+									"name": "Date",
+									"description": ""
+								},
+								{
+									"key": "Server",
+									"value": "waitress",
+									"name": "Server",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user_id\": 1,\n    \"user_name\": \"Jane Doe\",\n    \"session_id\": \"692896d736f245188512e39e0bdf1db8\",\n    \"session_timeout\": 720,\n    \"domain_admin\": true,\n    \"customer_id\": \"9D:94:5C:F1:6D:F5:60:64:A1:B8:83:2C:89:95:52:16:67:FD:68:2E\",\n    \"domain_viewer\": false,\n    \"auth_plugin_exists\": false,\n    \"user_email\": \"jane.doe@divvycloud.com\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Switch organization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var user = pm.environment.get(\"user_name\");",
+									"",
+									"if (user === \"APITestingAdmin\" || user === \"APITestingAdmin-RO\")",
+									"{ ",
+									"    pm.test(user + \" can switch Org\", function () {",
+									"       pm.response.to.have.status(200);",
+									"    });",
+									"}",
+									"else",
+									"{",
+									"    pm.test(user + \" cannot switch Org\", function () {",
+									"        pm.response.to.have.status(401);",
+									"    });",
+									"}",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{divvy-username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Auth-Token",
+								"value": "{{X-Auth-Token}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"organization_name\": \"API Testing\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/v2/prototype/domain/switch_organization",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"v2",
+								"prototype",
+								"domain",
+								"switch_organization"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "\"{{divvy_password}}\"",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "\"{{divvy_username}}\"",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "resource_type",
+			"value": ""
+		},
+		{
+			"key": "resource_types",
+			"value": ""
+		}
+	]
+}

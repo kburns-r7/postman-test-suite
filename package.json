@@ -1,0 +1,21 @@
+{
+  "name": "postman-test-suite",
+  "version": "1.0.0",
+  "description": "## Setup",
+  "scripts": {
+    "api-tests-jenkins": "newman run tests/postman-test-suite.postman_collection.json -d APIAutomationCreds-Releasetestbed.csv -e env.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kburns-r7/postman-test-suite.git"
+  },
+  "author": "Kevin Burns",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kburns-r7/postman-test-suite/issues"
+  },
+  "homepage": "https://github.com/kburns-r7/postman-test-suite#readme",
+  "dependencies": {
+    "newman": "^5.2.3"
+  }
+}
