@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/kburns-r7/postman-test-suite#readme",
   "dependencies": {
-    "newman": "^5.2.3"
+    "newman": "^5.2.3",
+    "newman-reporter-html": "^1.0.5"
   }
 }
